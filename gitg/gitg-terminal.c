@@ -36,6 +36,8 @@ struct _GitgTerminalPrivate
 
 G_DEFINE_TYPE(GitgTerminal, gitg_terminal, GTK_TYPE_VBOX);
 
+void gitg_terminal_init_term(VteTerminal *term, const char *directory);
+
 static void
 gitg_terminal_finalize (GObject *object)
 {
@@ -71,7 +73,7 @@ gitg_terminal_init_term(VteTerminal *term, const char *directory)
 	shell = g_getenv ("SHELL");
 	vte_terminal_fork_command(VTE_TERMINAL (term),
 			shell ? shell : "/bin/sh",
-			NULL, NULL, directory, // TODO get repository directory
+			NULL, NULL, directory, 
 			FALSE, FALSE, FALSE);
 }
 
@@ -86,13 +88,28 @@ gitg_terminal_set_repository(GitgTerminal *terminal, GitgRepository *repository)
 		g_object_unref(terminal->priv->repository);
 		terminal->priv->repository = NULL;
 	}
-
+	
+	int is_defined = 0;
+	
 	if (repository)
 	{
 		terminal->priv->repository = g_object_ref(repository);
-		gitg_terminal_init_term(terminal->priv->term, "/home/vincent");
+		if (gitg_repository_exists(terminal->priv->repository))
+		{
+			GFile *dir = gitg_repository_get_git_dir(terminal->priv->repository);
+			gitg_terminal_init_term(terminal->priv->term, g_file_get_path(g_file_get_parent(dir)));
+			is_defined = 1;
+		}
+		
+	}
+	
+	if (!is_defined)
+	{
+		// fall back on $HOME if no repository defined
+		const char *home;
+		home = g_getenv ("HOME");
+		gitg_terminal_init_term(terminal->priv->term, home);
 	}
 	
 	//g_object_notify(G_OBJECT(terminal), "repository");
 }
-
