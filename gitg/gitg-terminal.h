@@ -53,7 +53,7 @@ struct _GitgTerminalClass {
 
 GType gitg_terminal_get_type (void) G_GNUC_CONST;
 void gitg_terminal_set_repository(GitgTerminal *terminal, GitgRepository *repository);
-void gitg_terminal_init_term(VteTerminal *term, const char *directory);
+void gitg_terminal_init_term(GitgTerminal *terminal);
 
 G_END_DECLS
 
