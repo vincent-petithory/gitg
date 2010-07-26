@@ -28,6 +28,7 @@ NOINST_H_FILES =			\
 	gitg-revision-files-panel.h	\
 	gitg-revision-changes-panel.h	\
 	gitg-stat-view.h		\
+	gitg-terminal.h			\
 	gitg-uri.h			\
 	gitg-utils.h			\
 	gitg-window.h			\
@@ -52,6 +53,7 @@ gitg_SOURCES =				\
 	gitg-revision-files-panel.c	\
 	gitg-revision-changes-panel.c	\
 	gitg-stat-view.c		\
+	gitg-terminal.c			\
 	gitg-uri.c			\
 	gitg-utils.c			\
 	gitg-window.c			\

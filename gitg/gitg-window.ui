@@ -3,6 +3,7 @@
   <!-- interface-requires gtk+ 2.18 -->
   <!-- interface-requires gitg 0.0.6 -->
   <!-- interface-requires sourceview2 0.0 -->
+  <!-- interface-requires vte 0.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment_context">
     <property name="value">3</property>
@@ -537,6 +538,22 @@
               </object>
               <packing>
                 <property name="position">1</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GitgTerminal" id="terminal">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label_terminal">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Terminal</property>
+              </object>
+              <packing>
+                <property name="position">2</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>

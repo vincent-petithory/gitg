@@ -45,6 +45,7 @@
 #include "gitg-revision-files-panel.h"
 #include "gitg-activatable.h"
 #include "gitg-uri.h"
+#include "gitg-terminal.h"
 
 #include "gseal-gtk-compat.h"
 
@@ -73,6 +74,7 @@ struct _GitgWindowPrivate
 	GtkTreeView *tree_view;
 	GtkStatusbar *statusbar;
 	GitgCommitView *commit_view;
+	GitgTerminal *terminal;
 	GtkWidget *search_popup;
 	GtkComboBox *combo_branches;
 
@@ -971,6 +973,9 @@ gitg_window_parser_finished (GtkBuildable *buildable,
 	window->priv->commit_view = GITG_COMMIT_VIEW (gtk_builder_get_object (builder,
 	                                              "vpaned_commit"));
 
+	window->priv->terminal = GITG_TERMINAL (gtk_builder_get_object (builder,
+	                                              "terminal"));
+
 	restore_state (window);
 
 	init_tree_view (window, builder);
@@ -1823,6 +1828,9 @@ load_repository (GitgWindow   *window,
 
 		gitg_commit_view_set_repository (window->priv->commit_view,
 		                                 window->priv->repository);
+		                                 
+		gitg_terminal_set_repository (window->priv->terminal,
+		                                 window->priv->repository);
 
 		add_recent_item (window);
 	}
@@ -1831,6 +1839,9 @@ load_repository (GitgWindow   *window,
 		clear_branches_combo (window);
 
 		gitg_commit_view_set_repository (window->priv->commit_view,
+		                                 NULL);
+
+		gitg_terminal_set_repository (window->priv->terminal,
 		                                 NULL);
 
 		update_window_title (window);
